@@ -1,0 +1,70 @@
+{
+  "history": [
+    {
+      "id": 1784624584763,
+      "date": "14:33",
+      "player1": "Player X",
+      "player2": "AI Bot",
+      "winner": "Tie",
+      "symbol": "Tie",
+      "mode": "CLASSIC",
+      "duration": "20s"
+    },
+    {
+      "id": 1784624551996,
+      "date": "14:32",
+      "player1": "Player X",
+      "player2": "AI Bot",
+      "winner": "AI Bot",
+      "symbol": "O",
+      "mode": "CLASSIC",
+      "duration": "30s"
+    },
+    {
+      "id": 1784620872315,
+      "date": "13:31",
+      "player1": "Player X",
+      "player2": "Player O",
+      "winner": "Player O",
+      "symbol": "O",
+      "mode": "CLASSIC",
+      "duration": "19s"
+    },
+    {
+      "id": 1784620611870,
+      "date": "13:26",
+      "player1": "Player X",
+      "player2": "Player O",
+      "winner": "Player X",
+      "symbol": "X",
+      "mode": "CLASSIC",
+      "duration": "48s"
+    }
+  ],
+  "leaderboard": {
+    "Player X": {
+      "wins": 1,
+      "losses": 2,
+      "ties": 1,
+      "streak": 0,
+      "max_streak": 1,
+      "total": 4
+    },
+    "Player O": {
+      "wins": 1,
+      "losses": 1,
+      "ties": 0,
+      "streak": 1,
+      "max_streak": 1,
+      "total": 2
+    },
+    "AI Bot": {
+      "wins": 1,
+      "losses": 0,
+      "ties": 1,
+      "streak": 0,
+      "maxStreak": 1,
+      "total": 2
+    }
+  }
+}

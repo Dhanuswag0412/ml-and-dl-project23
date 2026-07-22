@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Air Motion Studio - Canvas, Air XO, Leaderboard & Stats</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- MediaPipe Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+    <!-- Ambient Background Mesh -->
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+    <div class="ambient-glow glow-3"></div>
+
+    <div class="app-wrapper">
+        <!-- Header HUD -->
+        <header class="app-header">
+            <div class="brand">
+                <div class="logo-box">
+                    <i class="fa-solid fa-hand-pointer logo-pulse"></i>
+                </div>
+                <div class="brand-info">
+                    <h1>AIR MOTION <span>STUDIO</span></h1>
+                    <p class="tagline">AI Motion Tracking, XO Arena & Statistics</p>
+                </div>
+            </div>
+
+            <!-- Mode Switcher Tabs -->
+            <div class="mode-nav-tabs">
+                <button id="tab-canvas-mode" class="nav-tab active">
+                    <i class="fa-solid fa-paintbrush"></i>
+                    <span>Air Canvas</span>
+                </button>
+                <button id="tab-xo-mode" class="nav-tab">
+                    <i class="fa-solid fa-gamepad"></i>
+                    <span>Air XO Arena</span>
+                    <span class="pulse-dot"></span>
+                </button>
+                <button id="tab-leaderboard-btn" class="nav-tab highlight-tab">
+                    <i class="fa-solid fa-trophy"></i>
+                    <span>Leaderboard</span>
+                </button>
+            </div>
+
+            <!-- HUD Indicators -->
+            <div class="hud-metrics">
+                <button id="mobile-drawer-toggle" class="glass-pill-btn mobile-only-btn" title="Toggle Controls">
+                    <i class="fa-solid fa-sliders"></i> <span class="btn-text">Controls</span>
+                </button>
+                <div class="metric-card hide-mobile">
+                    <span class="metric-label">GESTURE STATE</span>
+                    <div id="gesture-badge" class="badge badge-neutral">
+                        <i class="fa-solid fa-hand"></i> <span id="gesture-text">Detecting...</span>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <span class="metric-label">FPS ENGINE</span>
+                    <div class="badge badge-fps">
+                        <i class="fa-solid fa-bolt"></i> <span id="fps-counter">0 FPS</span>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <button id="theme-toggle-btn" class="glass-pill-btn theme-toggle-pill" title="Toggle Light/Dark Theme">
+                        <i class="fa-solid fa-moon" id="theme-icon"></i> <span id="theme-text">Dark</span>
+                    </button>
+                </div>
+
+                <div class="metric-card">
+                    <button id="toggle-engine-btn" class="glass-pill-btn">
+                        <i class="fa-solid fa-microchip"></i> <span id="engine-mode-text">Client MediaPipe</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Studio Main Workspace -->
+        <main class="studio-workspace">
+            <!-- Sidebar Drawer -->
+            <aside class="sidebar-drawer">
+                <div class="sidebar-nav">
+                    <button class="snav-btn active" data-tab="sec-tools" title="Canvas Tools">
+                        <i class="fa-solid fa-palette"></i>
+                    </button>
+                    <button class="snav-btn" data-tab="sec-xo" title="XO Game Config">
+                        <i class="fa-solid fa-chess-board"></i>
+                    </button>
+                    <button class="snav-btn" data-tab="sec-stats" title="Stats & History">
+                        <i class="fa-solid fa-chart-pie"></i>
+                    </button>
+                    <button class="snav-btn" data-tab="sec-vision" title="Vision & Camera">
+                        <i class="fa-solid fa-sliders"></i>
+                    </button>
+                    <button class="snav-btn" data-tab="sec-guide" title="Gesture Guide">
+                        <i class="fa-solid fa-circle-question"></i>
+                    </button>
+                </div>
+
+                <div class="sidebar-content">
+                    <!-- Panel 1: Canvas Tools -->
+                    <div id="sec-tools" class="tab-panel active">
+                        <div class="panel-header">
+                            <h3><i class="fa-solid fa-palette"></i> Palette</h3>
+                        </div>
+                        <div class="color-grid">
+                            <button class="color-swatch active" data-color="#ff007f" style="--c: #ff007f;" title="Neon Pink"></button>
+                            <button class="color-swatch" data-color="#00f0ff" style="--c: #00f0ff;" title="Cyber Cyan"></button>
+                            <button class="color-swatch" data-color="#39ff14" style="--c: #39ff14;" title="Emerald Glow"></button>
+                            <button class="color-swatch" data-color="#ffe600" style="--c: #ffe600;" title="Electric Yellow"></button>
+                            <button class="color-swatch" data-color="#b026ff" style="--c: #b026ff;" title="Purple Haze"></button>
+                            <button class="color-swatch" data-color="#ff5e00" style="--c: #ff5e00;" title="Solar Orange"></button>
+                            <button class="color-swatch" data-color="#ffffff" style="--c: #ffffff;" title="Pure White"></button>
+                            <button class="color-swatch rainbow-swatch" data-color="rainbow" title="Rainbow Glow">🌈</button>
+                        </div>
+
+                        <div class="custom-color-row">
+                            <span><i class="fa-solid fa-eye-dropper"></i> Custom Color</span>
+                            <input type="color" id="color-input" value="#ff007f">
+                        </div>
+
+                        <div class="panel-divider"></div>
+
+                        <div class="panel-header">
+                            <h3><i class="fa-solid fa-paintbrush"></i> Brush Settings</h3>
+                        </div>
+                        <div class="slider-box">
+                            <div class="slider-meta">
+                                <span>Thickness</span>
+                                <span id="brush-size-val" class="highlight-text">6 px</span>
+                            </div>
+                            <input type="range" id="brush-size" min="2" max="50" value="6">
+                        </div>
+
+                        <div class="tool-btn-grid">
+                            <button id="eraser-btn" class="mode-pill-btn">
+                                <i class="fa-solid fa-eraser"></i> Eraser
+                            </button>
+                            <button id="smooth-btn" class="mode-pill-btn active">
+                                <i class="fa-solid fa-wave-square"></i> Smooth
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Panel 2: Air XO Game Settings & Players -->
+                    <div id="sec-xo" class="tab-panel">
+                        <div class="panel-header">
+                            <h3><i class="fa-solid fa-gamepad"></i> XO Game Setup</h3>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="group-label">Match Type</label>
+                            <div class="segmented-control">
+                                <button id="xo-mode-ai" class="segment-btn active">vs AI Bot</button>
+                                <button id="xo-mode-pvp" class="segment-btn">2 Player Air</button>
+                            </div>
+                        </div>
+
+                        <!-- Player Names Config -->
+                        <div id="player-names-box" class="player-names-config">
+                            <div class="input-field-group">
+                                <label><i class="fa-solid fa-user" style="color: var(--accent-pink);"></i> Player 1 (X)</label>
+                                <input type="text" id="p1-name-input" value="Player X" placeholder="Enter P1 Name">
+                            </div>
+                            <div class="input-field-group">
+                                <label><i class="fa-solid fa-user" style="color: var(--accent-cyan);"></i> Player 2 (O)</label>
+                                <input type="text" id="p2-name-input" value="AI Bot" placeholder="Enter P2 Name">
+                            </div>
+                        </div>
+
+                        <div class="panel-divider"></div>
+
+                        <div class="control-group">
+                            <label class="group-label">Game Mode Rules</label>
+                            <div class="segmented-control">
+                                <button id="gmode-classic" class="segment-btn active">Classic</button>
+                                <button id="gmode-blitz" class="segment-btn">⚡ Blitz 5s</button>
+                                <button id="gmode-memory" class="segment-btn">🧠 Memory</button>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="group-label">AI Difficulty</label>
+                            <div class="segmented-control">
+                                <button id="xo-diff-easy" class="segment-btn">Easy</button>
+                                <button id="xo-diff-hard" class="segment-btn active">Unbeatable</button>
+                            </div>
+                        </div>
+
+                        <div class="panel-divider"></div>
+
+                        <button id="reset-xo-btn" class="glass-action-btn primary-glow">
+                            <i class="fa-solid fa-rotate"></i> Reset Match
+                        </button>
+                    </div>
+
+                    <!-- Panel 3: Stats & History -->
+                    <div id="sec-stats" class="tab-panel">
+                        <div class="panel-header">
+                            <h3><i class="fa-solid fa-chart-pie"></i> Match Analytics</h3>
+                        </div>
+
+                        <div class="stats-card-grid">
+                            <div class="mini-stat-card">
+                                <span class="mstat-num" id="stat-total-games">0</span>
+                                <span class="mstat-label">TOTAL GAMES</span>
+                            </div>
+                            <div class="mini-stat-card">
+                                <span class="mstat-num highlight-pink" id="stat-p1-wins">0</span>
+                                <span class="mstat-label" id="stat-p1-label">P1 WINS</span>
+                            </div>
+                            <div class="mini-stat-card">
+                                <span class="mstat-num highlight-cyan" id="stat-p2-wins">0</span>
+                                <span class="mstat-label" id="stat-p2-label">P2 WINS</span>
+                            </div>
+                            <div class="mini-stat-card">
+                                <span class="mstat-num" id="stat-best-streak">0</span>
+                                <span class="mstat-label">BEST STREAK</span>
+                            </div>
+                        </div>
+
+                        <div class="panel-divider"></div>
+
+                        <div class="panel-header">
+                            <h3><i class="fa-solid fa-clock-rotate-left"></i> Recent History</h3>
+                        </div>
+
+                        <div id="history-mini-list" class="history-list">
+                            <p class="empty-history-text">No matches recorded yet. Play a match to view history!</p>
+                        </div>
+                    </div>
+
+                    <!-- Panel 4: Vision Settings -->
+                    <div id="sec-vision" class="tab-panel">
+                        <div class="panel-header">
+                            <h3><i class="fa-solid fa-sliders"></i> Vision & Camera</h3>
+                        </div>
+
+                        <div class="slider-box">
+                            <div class="slider-meta">
+                                <span>Webcam Transparency</span>
+                                <span id="video-opacity-val" class="highlight-text">80%</span>
+                            </div>
+                            <input type="range" id="video-opacity" min="0" max="100" value="80">
+                        </div>
+
+                        <div class="toggle-stack">
+                            <label class="modern-toggle">
+                                <span>Mirror Webcam Feed</span>
+                                <input type="checkbox" id="mirror-toggle" checked>
+                                <span class="toggle-track"></span>
+                            </label>
+
+                            <label class="modern-toggle">
+                                <span>Render Hand Skeleton</span>
+                                <input type="checkbox" id="skeleton-toggle" checked>
+                                <span class="toggle-track"></span>
+                            </label>
+
+                            <label class="modern-toggle">
+                                <span>Web Audio Sound FX</span>
+                                <input type="checkbox" id="audio-toggle" checked>
+                                <span class="toggle-track"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Panel 5: Gesture Guide -->
+                    <div id="sec-guide" class="tab-panel">
+                        <div class="panel-header">
+                            <h3><i class="fa-solid fa-hand-sparkles"></i> Air Gestures</h3>
+                        </div>
+
+                        <ul class="gesture-cards-list">
+                            <li class="g-card">
+                                <div class="g-icon">☝️</div>
+                                <div class="g-info">
+                                    <strong>1 Finger Up</strong>
+                                    <p>Air Draw Mode / Target Cell</p>
+                                </div>
+                            </li>
+                            <li class="g-card">
+                                <div class="g-icon">⏱️</div>
+                                <div class="g-info">
+                                    <strong>0.8 Sec Dwell Hold</strong>
+                                    <p>Confirm XO Cell Move</p>
+                                </div>
+                            </li>
+                            <li class="g-card">
+                                <div class="g-icon">✌️</div>
+                                <div class="g-info">
+                                    <strong>2 Fingers Up</strong>
+                                    <p>Pointer / Hover Mode</p>
+                                </div>
+                            </li>
+                            <li class="g-card">
+                                <div class="g-icon">🤟</div>
+                                <div class="g-info">
+                                    <strong>3 Fingers Up</strong>
+                                    <p>Clear Canvas / Reset Board</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Center Viewport Area -->
+            <section class="viewport-stage">
+                <div class="viewport-frame" id="viewport-frame">
+                    <!-- Turn Countdown Progress Bar (For Blitz & Timed Modes) -->
+                    <div id="turn-timer-bar-wrapper" class="turn-timer-wrapper hidden">
+                        <div id="turn-timer-bar" class="turn-timer-bar"></div>
+                    </div>
+
+                    <!-- XO Scoreboard HUD Overlay -->
+                    <div id="xo-scoreboard" class="xo-scoreboard-hud hidden">
+                        <div class="score-card player-x">
+                            <span id="display-p1-name" class="score-label">PLAYER X</span>
+                            <span id="score-x-val" class="score-num">0</span>
+                        </div>
+                        <div class="score-divider">
+                            <div class="hud-center-meta">
+                                <span id="xo-mode-pill" class="mode-pill">CLASSIC</span>
+                                <span id="match-stopwatch" class="stopwatch-pill"><i class="fa-solid fa-stopwatch"></i> 00:00</span>
+                            </div>
+                            <span id="xo-turn-indicator" class="turn-pill">X's TURN</span>
+                            <span class="score-draws">TIED: <span id="score-ties-val">0</span></span>
+                        </div>
+                        <div class="score-card player-o">
+                            <span id="display-p2-name" class="score-label">AI BOT</span>
+                            <span id="score-o-val" class="score-num">0</span>
+                        </div>
+                    </div>
+
+                    <!-- Webcam Video Feed -->
+                    <video id="webcam-feed" autoplay playsinline muted></video>
+
+                    <!-- Flask OpenCV Stream (hidden by default) -->
+                    <img id="flask-stream" src="" alt="Flask Stream" style="display: none;">
+
+                    <!-- Drawing Canvas Layer -->
+                    <canvas id="air-canvas"></canvas>
+
+                    <!-- Skeleton Canvas Layer -->
+                    <canvas id="skeleton-canvas"></canvas>
+
+                    <!-- Motion Tracking Cursor -->
+                    <div id="air-cursor" class="motion-cursor">
+                        <svg class="dwell-svg" viewBox="0 0 50 50">
+                            <circle class="dwell-bg" cx="25" cy="25" r="20"></circle>
+                            <circle id="dwell-progress" class="dwell-bar" cx="25" cy="25" r="20"></circle>
+                        </svg>
+                        <div class="cursor-dot"></div>
+                    </div>
+
+                    <!-- Toast Notification Banner -->
+                    <div id="toast-msg" class="toast-banner hidden"></div>
+
+                    <!-- Winner Celebration Overlay Modal -->
+                    <div id="xo-winner-modal" class="winner-modal hidden">
+                        <div class="winner-card">
+                            <div class="trophy-icon">🏆</div>
+                            <h2 id="winner-title">PLAYER X WINS!</h2>
+                            <p id="winner-subtitle">Masterful Air Motion Tactics!</p>
+                            <div class="modal-btn-row">
+                                <button id="modal-replay-btn" class="glass-action-btn primary-glow">
+                                    <i class="fa-solid fa-gamepad"></i> Next Match
+                                </button>
+                                <button id="modal-lb-btn" class="glass-action-btn secondary">
+                                    <i class="fa-solid fa-trophy"></i> View Leaderboard
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Floating Bottom Action Dock -->
+                <div class="action-dock">
+                    <button id="undo-btn" class="dock-btn" title="Undo (Ctrl+Z)">
+                        <i class="fa-solid fa-rotate-left"></i> <span>Undo</span>
+                    </button>
+                    <button id="redo-btn" class="dock-btn" title="Redo (Ctrl+Y)">
+                        <i class="fa-solid fa-rotate-right"></i> <span>Redo</span>
+                    </button>
+                    <button id="clear-btn" class="dock-btn danger" title="Clear Canvas / Reset XO (3 Fingers)">
+                        <i class="fa-solid fa-trash-can"></i> <span>Clear Board</span>
+                    </button>
+                    <button id="download-btn" class="dock-btn success" title="Save Artwork (S)">
+                        <i class="fa-solid fa-floppy-disk"></i> <span>Save Artwork</span>
+                    </button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Leaderboard Modal Dialog -->
+    <div id="leaderboard-modal" class="full-modal hidden">
+        <div class="lb-container">
+            <div class="lb-header">
+                <h2><i class="fa-solid fa-trophy highlight-yellow"></i> AIR XO <span>LEADERBOARD</span></h2>
+                <button id="close-lb-modal" class="close-btn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div class="lb-table-wrapper">
+                <table class="lb-table">
+                    <thead>
+                        <tr>
+                            <th>RANK</th>
+                            <th>PLAYER NAME</th>
+                            <th>WINS</th>
+                            <th>LOSSES</th>
+                            <th>TIES</th>
+                            <th>WIN RATE</th>
+                            <th>MAX STREAK</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lb-table-body">
+                        <!-- Populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="lb-footer">
+                <span>Data persisted via LocalStorage & Server Sync</span>
+                <button id="clear-history-btn" class="dock-btn danger"><i class="fa-solid fa-trash"></i> Clear History</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main JavaScript Engine -->
+    <script src="static/js/main.js"></script>
+</body>
+</html>
