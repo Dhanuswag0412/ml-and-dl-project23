@@ -1,0 +1,3 @@
+[console_scripts]
+vehicle-detect = vehicle_detection.detector:main
+vehicle-detect-ui = vehicle_detection.gui:run_app

@@ -1,0 +1,13 @@
+MANIFEST.in
+pyproject.toml
+setup.py
+vehicle_detection/__init__.py
+vehicle_detection/detector.py
+vehicle_detection/gui.py
+vehicle_detection/yolov8n.pt
+vehicle_detection_yolo.egg-info/PKG-INFO
+vehicle_detection_yolo.egg-info/SOURCES.txt
+vehicle_detection_yolo.egg-info/dependency_links.txt
+vehicle_detection_yolo.egg-info/entry_points.txt
+vehicle_detection_yolo.egg-info/requires.txt
+vehicle_detection_yolo.egg-info/top_level.txt
