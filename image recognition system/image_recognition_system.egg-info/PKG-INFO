@@ -1,0 +1,19 @@
+Metadata-Version: 2.4
+Name: image-recognition-system
+Version: 0.1.0
+Summary: Deep learning based image classification and object recognition system using YOLOv8.
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: streamlit
+Requires-Dist: ultralytics
+Requires-Dist: opencv-python
+Requires-Dist: numpy
+Requires-Dist: pandas
+Requires-Dist: pillow
+Requires-Dist: torch
+Requires-Dist: torchvision
+Requires-Dist: matplotlib
+
+# Deep Learning Based Image Classification and Object Recognition System
+
+An object recognition and image classification system using YOLOv8 and Streamlit.

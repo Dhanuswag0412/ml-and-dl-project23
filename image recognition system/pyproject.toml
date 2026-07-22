@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "image-recognition-system"
+version = "0.1.0"
+description = "Deep learning based image classification and object recognition system using YOLOv8."
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "streamlit",
+    "ultralytics",
+    "opencv-python-headless",
+    "numpy",
+    "pandas",
+    "pillow",
+    "torch",
+    "torchvision",
+    "matplotlib",
+]
+
+[project.scripts]
+image-recognize = "image_recognition.detector:main"
+image-recognize-ui = "image_recognition.gui:run_app"
+
+[tool.setuptools]
+packages = ["image_recognition"]
+
+[tool.setuptools.package-data]
+image_recognition = ["*.pt"]

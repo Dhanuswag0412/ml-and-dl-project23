@@ -1,0 +1,14 @@
+MANIFEST.in
+README.md
+pyproject.toml
+setup.py
+image_recognition/__init__.py
+image_recognition/detector.py
+image_recognition/gui.py
+image_recognition/yolov8n.pt
+image_recognition_system.egg-info/PKG-INFO
+image_recognition_system.egg-info/SOURCES.txt
+image_recognition_system.egg-info/dependency_links.txt
+image_recognition_system.egg-info/entry_points.txt
+image_recognition_system.egg-info/requires.txt
+image_recognition_system.egg-info/top_level.txt

@@ -1,0 +1,3 @@
+[console_scripts]
+image-recognize = image_recognition.detector:main
+image-recognize-ui = image_recognition.gui:run_app
